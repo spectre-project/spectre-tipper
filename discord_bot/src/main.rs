@@ -68,7 +68,13 @@ async fn main() {
 
     // RPC
     let forced_spectre_node: Option<String> = match env::var("FORCE_SPECTRE_NODE_ADDRESS") {
-        Ok(v) => Some(v),
+        Ok(v) => {
+            if v.is_empty() {
+                None
+            } else {
+                Some(v)
+            }
+        }
         Err(_) => None,
     };
 

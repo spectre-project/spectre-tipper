@@ -8,7 +8,8 @@ use crate::models::{Context, Error};
 #[derive(Debug, poise::Modal)]
 #[name = "Confirm wallet destruction"]
 struct DestructionModalConfirmation {
-    #[name = "write destroy to confirm"]
+    #[name = "wallet destruction confirmation needed"]
+    #[placeholder = "write \"destroy\" to confirm the wallet destruction"]
     first_input: String,
 }
 
@@ -69,6 +70,13 @@ pub async fn destroy(ctx: Context<'_>) -> Result<(), Error> {
             let embed = create_success_embed("Wallet Destroyed", "");
             return send_reply(ctx, embed, true).await;
         }
+
+        let embed = create_embed(
+            "Wallet Destruction Aborted: Invalid Confirmation Message",
+            "",
+            Colour::DARK_ORANGE,
+        );
+        return send_reply(ctx, embed, true).await;
     }
 
     let embed = create_embed("Wallet Destruction Aborted", "", Colour::DARK_ORANGE);
